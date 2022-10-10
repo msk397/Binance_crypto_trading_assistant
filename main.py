@@ -29,10 +29,6 @@ def job():
     with open ('./config.json', 'r') as fcc_file:
         fcc_data = json.load (fcc_file)
     um_futures_client = UMFutures (proxies=proxies)
-    millis = int (round (time.time () * 1000))
-    now = time.strftime ('%Y-%m-%d %H:%M:%S', time.localtime (millis / 1000))
-    now = time.mktime (time.strptime (now[0:-5] + "00:00", "%Y-%m-%d %H:%M:%S"))
-    hour = int (now * 1000)
     timee = fcc_data['time']
     for sym in fcc_data['symbol']:
         symbol = sym
@@ -40,21 +36,23 @@ def job():
             status = fcc_data[sym]
         except:
             status = None
-        data = um_futures_client.klines (symbol, timee)
-        emarr144 = []
-        for em in data:
-            emarr144.append (float (em[4]))
+        try:
+            data = um_futures_client.klines (symbol, timee)
+            emarr144 = []
+            for em in data:
+                emarr144.append (float (em[4]))
 
-        EMA21 = calculate_ema (emarr144, 21)[-1]
-        EMA55 = calculate_ema (emarr144, 55)[-1]
-        EMA144 = calculate_ema (emarr144, 144)[-1]
-        print (EMA55, EMA144)
-        if EMA144 > EMA55 > EMA21 and (status or status is None):
-            fcc_data[sym] = False
-            sendMessage.bark (symbol, "做空", fcc_data['barkUrl'], fcc_data['barkKey'])
-        if EMA144 < EMA55 < EMA21 and ((not status) or status is None):
-            fcc_data[sym] = True
-            sendMessage.bark (symbol, "做多", fcc_data['barkUrl'], fcc_data['barkKey'])
+            EMA21 = calculate_ema (emarr144, 21)[-1]
+            EMA55 = calculate_ema (emarr144, 55)[-1]
+            EMA144 = calculate_ema (emarr144, 144)[-1]
+            if EMA144 > EMA55 > EMA21 and (status or status is None):
+                fcc_data[sym] = False
+                sendMessage.bark (symbol, "做空", fcc_data['barkUrl'], fcc_data['barkKey'])
+            if EMA144 < EMA55 < EMA21 and ((not status) or status is None):
+                fcc_data[sym] = True
+                sendMessage.bark (symbol, "做多", fcc_data['barkUrl'], fcc_data['barkKey'])
+        except:
+            continue
         time.sleep (10)
     with open ("./config.json", "w") as f:
         json.dump (fcc_data, f)
@@ -65,8 +63,8 @@ if not os.path.exists ("./config.json"):
 with open ('./config.json', 'r') as fcc_file:
     fcc_data = json.load (fcc_file)
 sendMessage.bark ("开始运行", "test", fcc_data['barkUrl'], fcc_data['barkKey'])
-
-schedule.every ().hour.do (job)
+job ()
+schedule.every (20).minutes.do (job)
 while True:
     schedule.run_pending ()
     time.sleep (1)
