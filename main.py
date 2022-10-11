@@ -34,8 +34,9 @@ def job():
         for sym in fcc_data['symbol']:
             symbol = sym
             signal = None
+            symbolKey = sym+timee
             try:
-                status = fcc_data[sym]
+                status = fcc_data[symbolKey]
             except:
                 status = None
             try:
@@ -48,18 +49,19 @@ def job():
                 EMA55 = calculate_ema (emarr144, 55)[-1]
                 EMA144 = calculate_ema (emarr144, 144)[-1]
                 if not ((EMA144 > EMA55 > EMA21) or (EMA144 < EMA55 < EMA21)):
-                    fcc_data.pop(sym+timee)
+                    fcc_data.pop(symbolKey)
                 if EMA144 > EMA55 > EMA21 and (status or status is None):
-                    fcc_data[sym+timee] = False
+                    print(status)
+                    fcc_data[symbolKey] = False
                     signal = "做空"
                 if EMA144 < EMA55 < EMA21 and ((not status) or status is None):
-                    fcc_data[sym+timee] = True
+                    fcc_data[symbolKey] = True
                     signal = "做多"
                 if signal is not None:
                     sendMessage.bark (symbol, timee + "级别出现{}信号".format(signal), fcc_data['barkUrl'], fcc_data['barkKey'])
             except:
                 continue
-            time.sleep (10)
+            time.sleep(10)
     with open ("./config.json", "w") as f:
         json.dump (fcc_data, f)
 
