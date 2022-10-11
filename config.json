@@ -1,4 +1,23 @@
-{"proxy": "http://127.0.0.1:7890",
+{
+  "proxy": "http://127.0.0.1:7890",
   "barkUrl": "https://xxxxx.xxx.top/push",
   "barkKey": "此处为你的barkKey",
-  "symbol": ["ETHUSDT", "BTCUSDT", "APEUSDT", "MATICUSDT", "OPUSDT", "RSRUSDT", "ATOMUSDT", "CHZUSDT", "SFPUSDT", "ALGOUSDT", "CRVUSDT", "SUSHIUSDT"], "time": "1h", "ETHUSDT": false, "BTCUSDT": false, "APEUSDT": false, "OPUSDT": false, "RSRUSDT": false, "ATOMUSDT": true, "CHZUSDT": false, "ALGOUSDT": false, "CRVUSDT": false, "SUSHIUSDT": true}
+  "symbol": [
+    "ETHUSDT",
+    "BTCUSDT",
+    "APEUSDT",
+    "MATICUSDT",
+    "OPUSDT",
+    "RSRUSDT",
+    "ATOMUSDT",
+    "CHZUSDT",
+    "SFPUSDT",
+    "ALGOUSDT",
+    "CRVUSDT",
+    "SUSHIUSDT"
+  ],
+  "time": [
+    "1h",
+    "1d"
+  ]
+}
