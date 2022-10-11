@@ -28,6 +28,7 @@ def calculate_ema(prices, days, smoothing=2):
 def job():
     with open ('./config.json', 'r') as fcc_file:
         fcc_data = json.load (fcc_file)
+
     um_futures_client = UMFutures (proxies=proxies)
     for timee in fcc_data['time']:
         for sym in fcc_data['symbol']:
@@ -46,6 +47,8 @@ def job():
                 EMA21 = calculate_ema (emarr144, 21)[-1]
                 EMA55 = calculate_ema (emarr144, 55)[-1]
                 EMA144 = calculate_ema (emarr144, 144)[-1]
+                if not ((EMA144 > EMA55 > EMA21) or (EMA144 < EMA55 < EMA21)):
+                    fcc_data.pop(sym+timee)
                 if EMA144 > EMA55 > EMA21 and (status or status is None):
                     fcc_data[sym+timee] = False
                     signal = "做空"
