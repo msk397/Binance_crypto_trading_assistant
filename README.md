@@ -1,6 +1,10 @@
 # 币安做单小助手
 * 采用的策略
   * EMA21,EMA55,EMA144成多头排列时做多；空头排列时做空
+  * Vegas通道
+  * NMACD+RSI+SMA
+  * 同时做了一些指标的python实现
+    * EMA，SMA，WMA，RMA，RSI，NMACD
 * 当符合排列条件时，用bark发送消息
 ## config说明
 * proxy：自己的代理，因为币安在国外，有GFW屏蔽，所以需要代理
@@ -8,6 +12,8 @@
 * barkKey：bark密钥
 * symbol：交易对
 * time：交易级别
+* VegasRate:Vegas策略下，当close价格与EMA144的价格差在多少百分比的时候发送通知
+* NmacdRsiRate:NMACD+RSI+SMA策略下，当close价格与SMA13的价格差在多少百分比的时候发送通知
 * 交易对
   * False：当前为空头排列，如果变为多头排列，给你发消息；如果是非多头排列，则没有操作
   * True：与上面相反

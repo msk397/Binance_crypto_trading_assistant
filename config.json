@@ -2,19 +2,12 @@
   "proxy": "http://127.0.0.1:7890",
   "barkUrl": "https://xxxxx.xxx.top/push",
   "barkKey": "此处为你的barkKey",
+
+  "VegasRate": 0.01,
+  "NmacdRsiRate": 0.01,
   "symbol": [
-    "ETHUSDT",
-    "BTCUSDT",
-    "APEUSDT",
-    "MATICUSDT",
-    "OPUSDT",
-    "RSRUSDT",
-    "ATOMUSDT",
-    "CHZUSDT",
-    "SFPUSDT",
-    "ALGOUSDT",
-    "CRVUSDT",
-    "SUSHIUSDT"
+    "ENSUSDT",
+    "UNIUSDT"
   ],
   "time": [
     "1h",
